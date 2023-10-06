@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body::-webkit-scrollbar{
+  width: 5px;
+}
+body::-webkit-scrollbar-button{
+  background-color:brown;
+}
+body{
+  overflow-x: hidden;
+}
+:root{
+  --bg-blue:#106cd8;
+  --bg-grayblue:#f6f6f6
+}
+.active{
+  border-bottom:2px solid #106cd8;
+  color: #106cd8;
+}
+.inactive{
+  color:black;
+}
+.second-slide{
+  background-color: black;
+}
+.first-slide{
+  background-color:#f2f2f2;
+}
+.entrust{
+  background-color: var(--bg-grayblue);
+}
+.txt{
+  color:var(--bg-blue)
+}
+.bg-txt{
+  background-color:var(--bg-blue);
+}
+.Gaming{
+  position: relative;
+  background: url('../public/home/dotted.png');
+  background-repeat: no-repeat;
+  background-size:cover;
+  z-index: 1;
+
+}
+.Gaming::after{
+content: '';
+position: absolute;
+width: 100%;
+height: 100%;
+top: 0;
+right: 0;
+background-color: rgba(0,0,0,0.8);
+z-index: -1;
+}
+
+
+/* *****about**** */
+
+.about-slide1{
+  background-image: url('../public/about/w-accessories-slider.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  
+}
+.about-slide2{
+  background-image: url('../public/about/accessories-slide-2.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+.about-slide3{
+  background-image: url('../public/about/accessories-slide-3.jpg');
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* input, textarea{
+ border: none;
+ outline: none;
+  
+} */
+
+
