@@ -155,44 +155,7 @@ app.post("/login",async(req,res)=>{
   }
 })
 
-// upload the image on icon of navbar
-// formdata image name is inside single
-// to upload the image use multer npm package
 
-const multer  = require('multer')
-// firstly you have to check that
-// is working or not by this method and after that 
-
-// const upload = multer({ dest: 'uploads/' })
-
-// ye kam karna hai
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() 
-    cb(null, uniqueSuffix + file.originalname)
-  }
-})
-
-const upload = multer({ storage: storage })
-
-app.post("/upload-image",upload.single("image"),async(req,res)=>{
-
-  const image=req.file.filename
-  console.log(image)
-  
-  try{
-const data= await User.create(image)
-const result =await data.save()
-console.log(result)
-  }catch(e){
-    console.log(e)
-    res.status(401).json({message:"image is not uploaded"})
-  }
-})
 // *********************logout**************
 
 // app.get('/logout', auth ,async(req,res)=>{
@@ -209,6 +172,16 @@ console.log(result)
  
 // })
 
+
+
+
+app.get("/getemail",auth, (req,res)=>{
+ 
+  console.log(req.rootuser)
+    res.status(201).json({data:req.rootuser, message:"success"})
+   
+
+  })
 // *************authenication and about page*********
 
 app.get("/aboutauth",auth, (req,res)=>{

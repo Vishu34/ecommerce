@@ -10,7 +10,9 @@ const initialstate={
 const FilterProducts=({children})=>{
      
     const {products}=useProductContext()
-    
+    // getemail this username has to pas to the navabar
+
+    const [username,setusername]=useState('')
       const [state,setstate]=useState(initialstate)
     const [search,setsearch]=useState('');
    
@@ -110,7 +112,9 @@ if(category!=="all"){
 setcategory,
 setcolor,
 setcompany,
-setsearch
+setsearch,
+username,
+setusername
 }}>
 {children}
 </AppContext.Provider>

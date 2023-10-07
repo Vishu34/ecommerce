@@ -64,9 +64,7 @@ const userSchema = new mongoose.Schema({
 
   
   
-  image:{
-    tyep:String
-  }
+  
 });
 
 
@@ -102,7 +100,7 @@ userSchema.methods.generateAuthToken = async function () {
     console.log(this._id);
     const token1 = jwt.sign(
       { _id: this._id },
-      process.env.JWT-SECRET_KEY_SIGNUPLOGIN
+      process.env.JWT_SECRET_KEY_SIGNUPLOGIN
     );
    
     this.tokens = this.tokens.concat({ token: token1 });

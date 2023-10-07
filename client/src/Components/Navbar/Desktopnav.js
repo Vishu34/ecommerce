@@ -5,9 +5,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useCartContext } from "../Context/CartContext";
 
 import { useWishContext } from "../Context/WishContext";
-import axios from "axios";
+
+import { useFilterContext } from "../Context/FilterProducts";
 const Desktopnav = () => {
 
+  const {username}=useFilterContext()
   
     const token = document.cookie
     .split("; ")
@@ -18,9 +20,9 @@ const Desktopnav = () => {
   const { totalwish } = useWishContext();
   const [top, settop] = useState();
   const [userlogin, setuserlogin] = useState(token);
+   
 
-
-const[image,setimage]=useState(true)
+const[email,setemail]=useState(username)
 
   const topnav = () => {
     if (window.scrollY > 300) {
@@ -29,50 +31,23 @@ const[image,setimage]=useState(true)
       settop(false);
     }
   };
-
-  // login and logout 
   useEffect(() => {
     window.addEventListener("scroll", topnav);
     setuserlogin(token);
-  }, [token]);
+    setemail(username)
+  }, [token,username]);
 
-// login and logout
+
 const handleclick=()=>{
     document.cookie=`tokenvishu=; expires=1000; path=/`
-   
+    setTimeout(() => {
+      window.location.reload();
+    }, 1000); // Refresh after 1 second
 }
 
 
-// get the alldata from the backend to 
-// email and image icons
-
-const handlesubmit=async()=>{
 
 
-  try{
-    const formdata=new FormData()
-formdata.append("image",image)
-
-const res= await axios.post("http://localhost:7000/upload-image",
-formdata,
-{
-  headers:{
-    "Content-Type":"multipart/form-data"
-  }
-
-})
-
- console.log(res.post)
-  }catch(e){
-    console.log(e)
-  }
-}
-
-const handlechange=(e)=>{
-  console.log(e.target.files[0])
-  setimage(e.target.files[0])
-  console.log(image)
-}
 
   return (
     <>
@@ -123,7 +98,7 @@ const handlechange=(e)=>{
 
            
              
-             {/* {
+             {
                 userlogin ? (<NavLink
                 className={({ isActive }) =>
                   isActive ? "active p-1" : "inactive p-1"
@@ -140,7 +115,7 @@ const handlechange=(e)=>{
               >
                 Login
               </NavLink>)
-             } */}
+             }
 
 
 
@@ -172,29 +147,16 @@ const handlechange=(e)=>{
                 </li>
               </NavLink>
 
-
-
-      {/* how to upload the image using multer node js and react js */}
-            
              {
-              image ? ( 
-
-                
-                <form>
-                <label htmlFor="fileinput" onClick={handlesubmit}
-                className="p-2 bg-red-800 rounded-3xl w-8 h-8 
-              flex items-center justify-center text-white font-bold capitalize">R</label>
-              <input type="file" accept="image/" id="fileinput" name="image" style={{display:"none"}}
-                onChange={handlechange}
-              />
-                </form>
-                
+              email ? (<h1 className="p-2 bg-red-800 rounded-3xl w-8 h-8 border-blue-500 border-2
+              flex items-center justify-center text-white font-bold capitalize text-sm">{username}</h1>
     ) : <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="img" className="w-8 h-8 rounded-3xl
     border-2 border-blue-500"/> 
              
              }     
              
-            
+             
+             
              </ul>
           </div>
         </div>

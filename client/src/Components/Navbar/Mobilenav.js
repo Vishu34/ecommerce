@@ -4,14 +4,18 @@ import { FaList, FaTimes } from 'react-icons/fa';
 
 import { NavLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useFilterContext } from '../Context/FilterProducts';
 
 const Mobilenav=()=>{
-
     const token = document.cookie
     .split('; ')
     .find(row => row.startsWith('tokenvishu='))
     ?.split('=')[1];
     console.log(token)
+
+     const{username}=useFilterContext()
+ const [email,setemail]=useState(username)
+    
    
     
     
@@ -29,7 +33,8 @@ const Mobilenav=()=>{
     useEffect(()=>{
      window.addEventListener('scroll',topnav)
      setuserlogin(token)
-    },[token])
+setemail(username)
+    },[token,username])
 
     const aboutclick=()=>{
         setnav(false)
@@ -59,9 +64,12 @@ const Mobilenav=()=>{
                 </div>
 
                 <div className="">
+               
                  
                    {
                     nav ? (
+
+                       
                         <motion.div 
                         initial={{x:500}}
                         animate={{x:0}}
@@ -69,7 +77,20 @@ const Mobilenav=()=>{
 
                         className=" first-slide p-4 fixed top-0 right-0 w-[100%] h-[100%] z-50">
          <ul className=" space-y-8  font-bold text-left">
+                           
+        
+                        <div className="flex justify-between items-center">
+                        {
+              email ? (<h1 className="p-2 bg-red-800 rounded-3xl w-8 h-8 border-2 border-blue-400
+              flex items-center justify-center text-white font-bold capitalize">{username}</h1>
+    ) : <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" alt="img" className="w-8 h-8 rounded-3xl
+    border-2 border-blue-500"/> 
+             
+             }  
+
+
                         <li className=' flex justify-end'><FaTimes className="text-lg cursor-pointer" onClick={aboutclick}/></li>
+                        </div>
                       <ul 
                    
                       className="space-y-8">

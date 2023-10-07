@@ -6,10 +6,14 @@ import Parteners from "../Components/Home/Parteners";
 import Section1 from "../Components/Home/Section1";
 import Swiper1 from "../Components/Home/Swiper1";
 import axios from "axios";
+import { useFilterContext } from "../Components/Context/FilterProducts";
 console.log(process.env.REACT_APP_SECRET_KEY)
 
 const Home=()=>{
-       const [username,setusername]=useState('')
+      
+
+  const {setusername}=useFilterContext()
+
      const [user,setuser]=useState('')
      const [show,setshow]=useState(false)
     useEffect(() => {
@@ -33,7 +37,7 @@ const Home=()=>{
           });
         
             const{data}=await response.json()
-           console.log(data.name)
+           
             setuser(data.name)
             setusername(data.email.charAt(0))
             setshow(true)
