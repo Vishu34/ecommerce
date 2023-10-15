@@ -1,5 +1,6 @@
 
 import {  useNavigate,Link, json } from 'react-router-dom'; // version 5.2.0
+import ReCAPTCHA from "react-google-recaptcha";
 
 import axios from "axios";
 import { useState } from "react";
@@ -13,8 +14,10 @@ const SignUp = () => {
     const[formdata,setdata]=useState({
         name:"",
         email:"",
+        phone:"",
         password:"",
-        cpassword:""
+        cpassword:"",
+        recaptchaResponse:""
     })
 
     const handlechange=(event)=>{
@@ -23,12 +26,15 @@ const SignUp = () => {
 
 
 
-    const {name,email,password,cpassword}=formdata;
+    const {name,email,password,cpassword,phone,recaptchaResponse}=formdata;
    
 
     const handlesubmit=async(e)=>{
 e.preventDefault()
-if(!name || !email || !password|| !cpassword){
+
+ // Verify reCAPTCHA response
+
+if(!name || !email || !password|| !cpassword ||!phone){
     
     return toast.warning('all field are reuired', {
         position: toast.POSITION.TOP_CENTER,
@@ -53,26 +59,30 @@ if(!name || !email || !password|| !cpassword){
                 headers:{
                     "Content-Type":"application/json",
                 },
-                body:JSON.stringify({name,email,password,cpassword})
+                body:JSON.stringify({name,email,phone,password,cpassword
+                })
             });
-            if(response.ok) {
+           
                 const {token,data,message} = await response.json();
-              
+                console.log(data)
               
        
-            toast.success('Registration successful!', {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 1000, // 3000 milliseconds = 3 seconds
-                onClose: () => {
-                setTimeout(() => {
-                    navigate("/login")
-                }, 1000);
-                  // Redirect after toast message
-                },
-              });
+           
+                if(data){
+                  toast.success('Registration successful!', {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 1000, // 3000 milliseconds = 3 seconds
+                    onClose: () => {
+                    setTimeout(() => {
+                        navigate("/login")
+                    }, 1000);
+                      // Redirect after toast message
+                    },
+                  });
+                }
         
           
-          }
+          
      
 
                
@@ -92,7 +102,7 @@ if(!name || !email || !password|| !cpassword){
            
           });
      }
-     
+    
     }
   return (
     <>
@@ -131,6 +141,17 @@ if(!name || !email || !password|| !cpassword){
                 onChange={handlechange}
                
               />
+              <label className="font-semibold px-2">Contactno.*</label>
+              <input
+                type="number"
+                name="phone"
+                value={phone}
+                
+                placeholder="Enter your email"
+                className="px-4 py-3 border-2 border-blue-200 rounded-3xl "
+                onChange={handlechange}
+               
+              />
               <label className="font-semibold px-2">Password*</label>
               <input
                 type="password"
@@ -151,6 +172,13 @@ if(!name || !email || !password|| !cpassword){
                 onChange={handlechange}
                
               />
+
+          {/* <ReCAPTCHA
+                  sitekey="6Ldoc54oAAAAALpYD5xiKoRhTPz0rNy9X_AE9D3x"
+                  onChange={(value) =>
+                    setdata({ ...formdata, recaptchaResponse: value })
+                  }
+                /> */}
               <div className="space-y-5 mt-5">
                 <button
                   type="submit"

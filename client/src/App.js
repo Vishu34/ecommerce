@@ -18,6 +18,7 @@ import Logout from './Components/Loguser/Logout';
 import FotgetPassword from './Components/Loguser/ForgetPassword';
 import ResetPassword from './Components/Loguser/ResetPassword';
 import PaymentForm from './Components/PaymentGateway/PaymentGeteway';
+import Error from './pages/Error';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
           <Route path="/forgetpassword" element={<FotgetPassword/>}/>
           <Route path="/resetpassword/:id/:token" element={<ResetPassword/>}/>
           <Route path="/payment" element={<PaymentForm/>}/>
+          <Route path="*" element={<Error/>}/>
       </Routes>
       <Footer/>
      </BrowserRouter>

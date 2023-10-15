@@ -1,6 +1,8 @@
 import React from "react";
 import { useFilterContext } from "../Context/FilterProducts";
 import { useProductContext } from "../Context/ProductContext";
+import Pagination from "./Pagination";
+
 
 const Filter = () => {
   const { products } = useProductContext();
@@ -105,9 +107,14 @@ const Filter = () => {
                  </React.Fragment>
                 );
               })}
+              
             </div>
+            
           </div>
+          
+          
         </div>
+       
       </section>
     </>
   );

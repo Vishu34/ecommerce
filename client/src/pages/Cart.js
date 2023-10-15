@@ -3,12 +3,62 @@ import CartItem from "../Components/Cart/CartItem";
 import { useCartContext } from "../Components/Context/CartContext";
 import FormatPrice from "../Components/FormatPrice/FormatPrice";
 import PaymentForm from "../Components/PaymentGateway/PaymentGeteway";
+import { useEffect, useState } from "react";
 
 const Cart=()=>{
 
     const {cart,Total_price,Clearitems,Gst}=useCartContext()
-    
 
+    const[formdata,setformdata]=useState({
+  name:"",
+  email:"",
+  contact:""
+    })
+
+    const{name,email,contact}=formdata
+    
+    console.log(name,email,contact)
+
+    useEffect(()=>{
+        const Fetchlogindata=async()=>{
+     
+        
+            const token = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('tokenvishu='))
+            ?.split('=')[1];
+          try{
+     
+         const res= await fetch("http://localhost:7000/cart",{
+           method:"GET",
+           headers:{
+          
+             Authorization: `Bearer ${token}`,
+     
+           },
+     
+         })
+     
+         if(res.status===201){
+           const data=await res.json()
+           const {name,email,phone}=data.data
+           
+           setformdata({
+            name:name,
+            email:email,
+            contact:phone
+           })
+         }
+           
+          }catch(e){
+           console.log(e)
+     
+          }
+     
+        }
+     
+     Fetchlogindata()
+       },[])
     
 
     return(
@@ -54,7 +104,7 @@ const Cart=()=>{
           <div className="">
          
          
-         <PaymentForm price={Total_price+Gst}/>
+         <PaymentForm price={Total_price+Gst} logindata={formdata}/>
           </div>
            </div>
             <div>

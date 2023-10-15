@@ -46,34 +46,24 @@ const WishContext=({children})=>{
 
     const AddheartItems=(id,productfilter)=>{
    dispatch({type:"ADD_WISH_LIST",payload:{id,productfilter}})
-
-// if(wishdata.indexOf(productfilter)===-1){
-//     let exist=wishdata.find(elm=>{
-//         return elm.id===id
-//     })
-//     if(exist){
-//        setwish(false)
-//     }else{
-//          setwishdata([...wishdata,productfilter])
-//          setwish(true)
-//       }
+ 
+   
+   
+   
+  
     }
   
     const RemoveheartItems=(id)=>{
  dispatch({type:"REMOVE_WISH_LIST",payload:id})
+ 
 
-//     let updatedata=wishdata.filter(elm=>{
-//        return elm.id!==id
-//     })
-//    setwishdata(updatedata)
 }
 
  const RemoveWish=(id)=>{
     dispatch({type:"REMOVE_WISH",payload:id})
-    // let updatedata=wishdata.filter(elm=>{
-    //     return elm.id!==id
-    // })
-    // setwishdata(updatedata)
+   
+
+   
  }
   
  const ClearWishlist=()=>{

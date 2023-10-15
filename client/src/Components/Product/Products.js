@@ -6,6 +6,7 @@ import { FilterProducts, useFilterContext } from "../Context/FilterProducts";
 import Gridview from "./Gridview";
 
 import Listview from "./Listview";
+import Pagination from "./Pagination";
 
 
 const Products=()=>{
@@ -48,8 +49,9 @@ const Products=()=>{
         grid ?<Gridview/> : <Listview/>
        }
           </div>
+         
     </div>
-
+   
      </div>
   
 </section>

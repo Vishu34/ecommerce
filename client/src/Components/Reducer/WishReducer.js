@@ -13,11 +13,15 @@ const WishReducer = (state, action) => {
 
     if (state.wishdata.indexOf(productfilter) === -1) {
       let exist = state.wishdata.find((elm) => elm.id === id);
+      
       if (exist) {
         // if you want to redirect the page then
+        
         // window.location.href="/product"
         return state;
       } else {
+       
+       
         return {
           ...state,
           wishdata: [...state.wishdata, productfilter],

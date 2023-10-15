@@ -14,7 +14,7 @@ const Listview=()=>{
     return(
         <>
 
-<div className="grid gap-5 md:grid-cols-2">
+<div className="grid gap-5 md:grid-cols-1">
 {
     filterdata.map((elm,index)=>{
         const { id, image, name, category, price, company,description } = elm;
@@ -23,7 +23,7 @@ const Listview=()=>{
             <React.Fragment key={index}>
             <div className="">
                <NavLink to={`/singleproduct/${id}`}>
-                 <div className="flex-none sm:flex items-center text-gray-500 bg-white p-2 rounded-md " key={id}>
+                 <div className="flex-none md:flex items-center text-gray-500 bg-white p-2 rounded-md " key={id}>
                     <div className="overflow-hidden">
                         <img src={image} alt="imga" className="rounded-md w-[100%]  h-[350px] sm:h-[200px] object-cover hover:scale-150 hover:transition-all"/>
 

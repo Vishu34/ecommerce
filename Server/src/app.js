@@ -21,6 +21,11 @@ app.use(cors({
   credentials: true
 }));
 
+
+
+
+const http = require('http'); 
+const server = http.createServer(app);
 app.use(bodyParser.json());
 
 
@@ -30,6 +35,14 @@ app.use(express.json())
 
 app.use(express.urlencoded({extended:false}))
 
+
+// define the reacpactha
+
+const Recaptcha = require("express-recaptcha").RecaptchaV2;
+const recaptcha = new Recaptcha(
+  "6Ldoc54oAAAAALpYD5xiKoRhTPz0rNy9X_AE9D3x",
+  "6Ldoc54oAAAAAHo64Ye-M7FOQzCfepBgX3s0UrpD"
+);
 
 const auth=require("./Middleware/auth")
 const User=require("./model/model")
@@ -53,14 +66,27 @@ const razorpay = new Razorpay({
 });
 
 
+
+const Paymentmodel=require('./model/paymentdata')
 app.post('/api/payment/create', async (req, res) => {
   try {
-    const { amount, currency } = req.body;
+    const { amount, currency,name,email,phone,cart} = req.body;
 console.log(amount)
+
+// if you want to send the array data to schema then 
+// shema name and array name should be the same then you can 
+// send it jaise yaha cart ek array hai
+  const resdata= await new Paymentmodel({
+    name,email,phone,cart
+  })
+
+  console.log("apymentkadatada"+ resdata)
     const options = {
       amount: amount,
       currency: currency,
     };
+
+
 
     const order = await razorpay.orders.create(options);
     res.json({ order_id: order.id });
@@ -90,18 +116,42 @@ app.post('/api/payment/success', (req, res) => {
 });
 
 
+app.get("/paymentpost",async(req,res)=>{
+  
+  try{
+    const res1=await Paymentmodel.find()
+  console.log("sdkflasfj"+res1)
+    res.json({data:res1})
+  }catch(e){
+    console.log(e)
+  }
+})
+
+// logindatafetch for the ceckout
+
+app.get('/cart',auth,async(req,res)=>{
+
+  try{
+    console.log(req.rootuser)
+    res.status(201).json({data:req.rootuser, message:"successfully send logindata"})
+  }catch(e){
+    console.log(e)
+  }
+
+})
 
 //  ***************register **************
 
 app.post("/signup",async(req,res)=>{
  
-  const{name,email,password,cpassword}=req.body
+  const{name,email,phone,password,cpassword}=req.body
 try{
-
+ 
  if(password===cpassword){
   const userdata=new User({
     name,
     email,
+    phone,
     password,
     cpassword
   })
@@ -112,14 +162,17 @@ try{
 
 
 
-  const result=await userdata.save()
+ 
+  
+    const result=await userdata.save()
 
-  res.json({token:token, data:result, message:"successfuull"})
-}
-else{
-  res.json({message:"password not match"})
-  console.log("not match password")
-}
+    res.json({token:token, data:result, message:"successfuull"})
+  }else{
+    res.json({message:"password not match"})
+    console.log("not match password")
+  }
+
+
 
 
 
@@ -156,21 +209,7 @@ app.post("/login",async(req,res)=>{
 })
 
 
-// *********************logout**************
 
-// app.get('/logout', auth ,async(req,res)=>{
-  
-//   console.log(req.token)
-//   console.log(req.rootuser)
- 
-// req.rootuser.tokens= await req.rootuser.tokens.filter(elmtoken=>{
-//   elmtoken!=req.token
-// })
-  
-// res.clearCookie("tokenvishu=")
-//   console.log( "token delete"+req.rootuser)
- 
-// })
 
 
 
@@ -328,6 +367,8 @@ console.log(verifytoken._id)
 
 
 
-app.listen(port,()=>{
-    console.log(`server is runnning on the ${port}`)
-})
+// app.listen(port,()=>{
+//     console.log(`server is runnning on the ${port}`)
+// })
+
+server.listen(port);

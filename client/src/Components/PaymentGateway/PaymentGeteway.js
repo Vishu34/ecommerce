@@ -1,9 +1,20 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useCartContext } from '../Context/CartContext';
 
-const PaymentForm = ({price}) => {
-    console.log(price)
-  const [paymentId, setPaymentId] = useState(18);
+const PaymentForm = ({price,logindata}) => {
+    console.log(price,logindata)
+
+    const{name,email,phone}=logindata
+    const {cart,Total_price,Clearitems,Gst}=useCartContext()
+
+    
+
+    
+
+
+    
+
 
   const handlePayment = async () => {
     const response = await fetch('http://localhost:7000/api/payment/create', {
@@ -11,7 +22,8 @@ const PaymentForm = ({price}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ amount:price, currency: 'INR' }),
+      body: JSON.stringify({ amount:price, currency: 'INR',
+    name,email,phone,cart}),
     });
 
     const { order_id } = await response.json();
@@ -19,19 +31,19 @@ const PaymentForm = ({price}) => {
     
     const options = {
       key: 'rzp_test_FziSijI6imJ17g',
-    amount:price,
+   amount:price,
       currency: 'INR',
-      name: 'Your Company',
+      name: 'Vishu Mernstack developer',
       description: 'Payment Gateway Demo',
-      image: 'https://your-company-logo.png',
+      image: 'https://cdn.pixabay.com/photo/2016/12/27/13/10/logo-1933884_640.png',
       order_id: order_id,
      
       prefill: {
         // jo bhi user login karega uska emial name phone
         
-        name: 'vishu sahu',
-        email: 'sahuvishu26@gmail.com',
-        contact: '8889645606',
+        name: {name},
+        email: {email},
+        contact: {phone},
       },
     };
 

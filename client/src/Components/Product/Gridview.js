@@ -3,23 +3,25 @@ import { useFilterContext } from "../Context/FilterProducts";
 import FormatPrice from "../FormatPrice/FormatPrice";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { useWishContext } from "../Context/WishContext";
-import React from "react";
+import React, { useState } from "react";
 
 const Gridview = () => {
   const { filterdata } = useFilterContext();
-
-  const { AddheartItems, RemoveheartItems, wishdata,wish } = useWishContext();
-
  
+
+  const { AddheartItems, RemoveWish,wishdata } = useWishContext();
+
+
 const updatedArray = filterdata.map((obj) => ({ ...obj, data: 1 }));
 
   return (
     <>
       <div className="gap-4 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {updatedArray.map((productfilter,index) => {
-          const {data,id, image, name, category, price, company } = productfilter;
+          const {id, image, name, category, price, company } = productfilter;
      
       console.log({id})
+      
           
           return (
            <React.Fragment key={index}>
@@ -46,11 +48,13 @@ const updatedArray = filterdata.map((obj) => ({ ...obj, data: 1 }));
                   <div className="">
                 
                         
-                     <NavLink  className={({ isActive }) => (isActive ? 'active' : 'inactive')} to="/wishlist" onClick={()=>AddheartItems(id,productfilter)}> <p>
-                      {/* <FaRegHeart className="cursor-pointer hover:text-red-500"  /> */}
-                        <FaHeart className="cursor-pointer hover:text-red-500 hover:active"  /> 
-
-                      
+                     <NavLink to="/wishlist"> <p>
+                 
+                     
+                       
+                        <FaRegHeart className="cursor-pointer heart hover:text-red-500" onClick={()=>AddheartItems(id,productfilter)}/>
+                  
+                       
                       </p>
                       </NavLink>
                     
